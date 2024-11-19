@@ -1,16 +1,18 @@
-import os
 # 4. Firebase 관련 라이브러리
 import firebase_admin
 from firebase_admin import credentials, storage
-# 3. 환경 변수 로드 관련
-from dotenv import load_dotenv
 import json
+import boto3
 
-# 환경 변수 로드
-load_dotenv()
+# Secrets Manager 클라이언트 생성
+client = boto3.client("secretsmanager", region_name="ap-northeast-2")
+
+# 비밀 값 가져오기
+response = client.get_secret_value(SecretId="FIREBASE_KEY")
+firebase_key = json.loads(response["SecretString"])
 
 # Firebase 초기화
-cred = credentials.Certificate(os.getenv('FIREBASE_SERVICE_ACCOUNT_PATH'))
+cred = credentials.Certificate(firebase_key)
 firebase_admin.initialize_app(cred, {'storageBucket': 'news-data01.appspot.com'})
 
 # Firebase에서 기사 원문 가져오기 함수

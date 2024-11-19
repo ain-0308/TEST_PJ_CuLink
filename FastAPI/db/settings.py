@@ -14,7 +14,7 @@ database_config = {
 faiss_path = os.getenv('FAISS_INDEX_PATH')
 
 #================== Firebase ====================
-firebase_key = os.getenv('FIREBASE_SERVICE_ACCOUNT_PATH')
+# firebase_key = os.getenv('FIREBASE_SERVICE_ACCOUNT_PATH')
 
 #================== openAI_key ==================
 openai_key = os.getenv("OPEN_API_KEY")
