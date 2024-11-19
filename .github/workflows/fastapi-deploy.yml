@@ -21,9 +21,15 @@ jobs:
     - name: Deploy to EC2
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@3.39.187.134 << 'EOF'
-        cd ~/fastapi_project
+
+        if [ -d "~/TEST_PJ_CuLink" ]; then
+        cd ~/TEST_PJ_CuLink
         git pull origin main
-        source venv/bin/activate
+        else
+          git clone https://github.com/<your-username>/<your-repository>.git ~/TEST_PJ_CuLink
+        fi
+        cd ~/TEST_PJ_CuLink
+        source ~/fastapi_project/venv/bin/activate
         pip install -r requirements.txt
         uvicorn main:app --host 0.0.0.0 --port 8000 --daemon
         EOF
