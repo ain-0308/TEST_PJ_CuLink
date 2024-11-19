@@ -11,7 +11,7 @@ firebase_key = json.loads(response["SecretString"])
 
 # Firebase 초기화
 cred = credentials.Certificate(firebase_key)
-    firebase_admin.initialize_app(cred, {'storageBucket': 'news-data01.appspot.com'})
+firebase_admin.initialize_app(cred, {'storageBucket': 'news-data01.appspot.com'})
 
 # 버킷 할당
 bucket = storage.bucket()
