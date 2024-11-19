@@ -26,7 +26,7 @@ jobs:
         cd ~/TEST_PJ_CuLink
         git pull origin main
         else
-          git clone https://github.com/<your-username>/<your-repository>.git ~/TEST_PJ_CuLink
+          git clone https://github.com/ain-0308/TEST_PJ_CuLink.git ~/TEST_PJ_CuLink
         fi
         cd ~/TEST_PJ_CuLink
         source ~/fastapi_project/venv/bin/activate
