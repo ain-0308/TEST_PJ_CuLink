@@ -5,7 +5,7 @@ import requests
 from PIL import Image
 from deep_translator import GoogleTranslator
 from db.settings import huggingface_token
-import time  # 시간 대기용 모듈 추가
+
 # Hugging Face 로그인
 try:
     login(token=huggingface_token, add_to_git_credential=True)
