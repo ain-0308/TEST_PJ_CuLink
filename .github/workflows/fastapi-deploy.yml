@@ -1,0 +1,29 @@
+name: FastAPI Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 변경 사항이 있을 때 실행
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+    - name: Deploy to EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no ubuntu@<EC2-IP> << 'EOF'
+        cd ~/fastapi_project
+        git pull origin main
+        source venv/bin/activate
+        pip install -r requirements.txt
+        uvicorn main:app --host 0.0.0.0 --port 8000 --daemon
+        EOF
