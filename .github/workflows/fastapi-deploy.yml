@@ -20,7 +20,7 @@ jobs:
 
     - name: Deploy to EC2
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@<EC2-IP> << 'EOF'
+        ssh -o StrictHostKeyChecking=no ubuntu@3.39.187.134 << 'EOF'
         cd ~/fastapi_project
         git pull origin main
         source venv/bin/activate
