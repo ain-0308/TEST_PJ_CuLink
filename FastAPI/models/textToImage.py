@@ -3,7 +3,7 @@ from huggingface_hub import login
 from datetime import datetime
 import requests
 from PIL import Image
-from translate import Translator
+from deep_translator import GoogleTranslator
 from db.settings import huggingface_token
 import time  # 시간 대기용 모듈 추가
 # Hugging Face 로그인
@@ -21,7 +21,7 @@ headers = {"Authorization": f"Bearer {huggingface_token}"}
 # 한글 => 영어 번역함수
 def translate_kr_to_en(keyword_ko):
     # 번역기 설정
-    translator = Translator(from_lang="ko", to_lang="en")
+    translator = GoogleTranslator(source='en', target='ko')
     # 번역 수행
     keyword_en = translator.translate(keyword_ko)
     # 번역 결과 출력
