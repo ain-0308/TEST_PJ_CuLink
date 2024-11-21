@@ -31,6 +31,8 @@ app = FastAPI(
 # CORS 설정
 origins = [
     "http://culink.site:3000",  # 리액트 퍼블릭 주소
+    "http://localhost",  # Postman 테스트용
+    "http://127.0.0.1",  # Postman 테스트용
 ]
 
 app.add_middleware(
