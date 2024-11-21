@@ -23,7 +23,8 @@ jobs:
 
     # 3. Debug Runner IP 출력
     - name: Debug Runner IP
-      run: echo "Runner IP from step output: ${{ steps.get_ip.outputs.runner_ip }}"
+      run: echo "Runner IP from step output:${{ steps.get_ip.outputs.runner_ip }}"
+
 
     # 4. AWS 자격 증명 및 기본 리전 설정
     - name: Configure AWS Credentials
