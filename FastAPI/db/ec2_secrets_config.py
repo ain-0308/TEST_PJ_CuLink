@@ -15,7 +15,7 @@ def get_secrets(secret_name, region_name='ap-northeast-2'):
         return None
 
 # 시크릿에서 환경 변수 가져오기
-secrets = get_secrets("my_application_secrets")
+secrets = get_secrets("env_key")
 if secrets:
     for key, value in secrets.items():
         os.environ[key] = value
