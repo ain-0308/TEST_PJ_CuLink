@@ -22,7 +22,7 @@ from routers.chatbotRouter import router as chatbot_router
 app = FastAPI()
 
 origins = [
-    "http://13.124.77.1:3000/", # 리액트 퍼블릭 주소
+    "http://culink.site:3000/", # 리액트 퍼블릭 주소
 ]
 
 # CORS 설정: React 앱에서 오는 요청 허용
@@ -32,6 +32,14 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+
+app = FastAPI(
+    title="My API",
+    version="1.0",
+    docs_url="/docs",  # Swagger UI 경로
+    redoc_url="/redoc",  # ReDoc 경로
+    openapi_url="/openapi.json",  # OpenAPI JSON 경로
 )
 
 # 요약모델 라우터 
