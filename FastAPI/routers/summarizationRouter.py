@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from typing import List
 from models.summary_openai import summarize_article  # 요약 함수 임포트
 from utils.firebase_utils import fetch_article_content
-
+from db.firebase_config import bucket
 from firebase_admin import storage  # Firebase 스토리지 사용
 
 router = APIRouter()
@@ -29,7 +29,7 @@ async def receive_article_contents(articles: Articles):
         print(f"받은 기사 ID들: {article_ids}")
 
         # Firebase에서 기사 원문을 가져오기
-        bucket = storage.bucket()  # Firebase 버킷 객체 생성
+        # bucket = storage.bucket()  # Firebase 버킷 객체 생성
         contents = fetch_article_content(article_ids, bucket)
         print(f"가져온 기사 원문: {contents}")
 
