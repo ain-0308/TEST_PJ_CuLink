@@ -21,6 +21,10 @@ from routers.chatbotRouter import router as chatbot_router
 # 라우터 초기화
 app = FastAPI()
 
+origins = [
+    "http://13.124.77.1:3000/", # 리액트 퍼블릭 주소
+]
+
 # CORS 설정: React 앱에서 오는 요청 허용
 app.add_middleware(
     CORSMiddleware,
