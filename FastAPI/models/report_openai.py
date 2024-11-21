@@ -1,5 +1,5 @@
 import openai
-from langchain_community.llms import OpenAI
+from langchain_community.llms import openai
 
 
 def createReport_text(report_contents):

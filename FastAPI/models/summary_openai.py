@@ -1,15 +1,10 @@
 # 임시 모델 파일
-import os
-from dotenv import load_dotenv
 import openai
 from langchain_community.llms import OpenAI
-# 환경 변수 로드
-load_dotenv()
-
-openai_key = os.getenv("OPEN_API_KEY")
+from db.settings import openai_key
+openai_key = openai_key
 
 # API 키 설정
-summary_openai_key = os.getenv("SUMMARY_OPEN_API_KEY")
 
 # 뉴스 요약 함수 article_content : 넘겨준 기사 원문 데이터
 def summarize_article(article_content: str) -> str:

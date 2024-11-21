@@ -1,11 +1,10 @@
 import openai
 from fastapi import HTTPException
-from db.ec2_secrets_config import secrets
-from db.settings import chatbot_openai_key
-print('secrets',secrets)
+from db.settings import openai_key
+print('secrets',openai_key)
 
 # OpenAI API 키 설정
-openai.api_key = secrets["OPEN_API_KEY"]
+openai.api_key = openai_key
 
 # 프롬프트 추가
 site_info_prompt = """
