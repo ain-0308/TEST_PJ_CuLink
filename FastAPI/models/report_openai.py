@@ -1,10 +1,6 @@
 import openai
 from langchain_community.llms import OpenAI
-from models.textToImage import generate_images_and_send
-from db.settings import openai_key
 
-# API 키 설정
-openai.api_key = openai_key  # OpenAI API 키
 
 def createReport_text(report_contents):
     report_content = report_contents[0]
