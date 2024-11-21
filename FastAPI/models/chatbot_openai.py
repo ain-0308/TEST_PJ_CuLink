@@ -1,7 +1,6 @@
 import openai
 from fastapi import HTTPException
 from db.settings import openai_key
-print('secrets',openai_key)
 
 # OpenAI API 키 설정
 openai.api_key = openai_key
