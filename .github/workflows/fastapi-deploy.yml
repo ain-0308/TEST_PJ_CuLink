@@ -62,7 +62,7 @@ jobs:
         fi
         cd ~/TEST_PJ_CuLink
         source ~/fastapi_project/venv/bin/activate
-        pip install -r requirements.txt
+        pip install -r /TEST_PJ_CuLink/FastAPI/requirements.txt
         nohup uvicorn main:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 &
         EOF
 
