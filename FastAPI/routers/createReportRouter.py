@@ -31,36 +31,3 @@ def createReport(request: ArticleIdList):
         print(f"Error during ID reception: {str(e)}")
         raise HTTPException(status_code=400, detail=f"기사 ID 처리 중 오류 발생: {str(e)}")
     
-
-
-""" 리액트쪽 레포트생성하기 요청후 데이터 받았을 때 예시 코드
-import axios from 'axios';
-import pako from 'pako';
-
-async function fetchCompressedData() {
-    try {
-        const response = await axios.post("http://localhost:8000/report/createReport", {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ ids: 선택된 id리스트 }), // 선택된 기사를 JSON 형태로 전송
-        });                         👆🏻 이 부분 ids로 보내주세요~
-
-        const compressedData = await response.arrayBuffer();
-        // 압축 해제
-        const decompressedData = pako.inflate(new Uint8Array(compressedData));
-        // UTF-8로 디코딩
-        const textDecoder = new TextDecoder('utf-8');
-        const jsonString = textDecoder.decode(decompressedData);
-        // JSON 파싱
-        const parsedData = JSON.parse(jsonString);
-        console.log(parsedData);
-        // 로그 보시면 object타입으로 넘어옵니다~
-        // 거기서 필요한 것 가져다 쓰셔야해요~
-
-    } catch (error) {
-        console.error("Error fetching compressed data:", error);
-    }
-}
-"""
