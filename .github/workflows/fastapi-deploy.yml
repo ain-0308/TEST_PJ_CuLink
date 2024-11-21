@@ -10,17 +10,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # 1. GitHub 리포지토리 코드 체크아웃
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    # 2. GitHub Actions Runner의 Public IP 가져오기
     - name: Get Runner IP
       id: get_ip
       run: echo "RUNNER_IP=$(curl -s http://checkip.amazonaws.com)" >> $GITHUB_ENV
 
+    # 3. AWS 자격 증명 및 기본 리전 설정
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2  # AWS 리전 설정 (예: 서울 리전)
+
+    # 4. AWS 보안 그룹에 Runner IP 추가
     - name: Authorize Runner IP in Security Group
       env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        RUNNER_IP: ${{ env.RUNNER_IP }}
       run: |
         echo "Authorizing IP: $RUNNER_IP"
         aws ec2 authorize-security-group-ingress \
@@ -29,11 +39,13 @@ jobs:
           --port 22 \
           --cidr ${RUNNER_IP}/32
 
+    # 5. SSH를 설정하여 EC2에 연결 준비
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
+    # 6. EC2에 연결하여 FastAPI 배포
     - name: Deploy to EC2
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@15.164.148.20 << 'EOF'
@@ -49,11 +61,11 @@ jobs:
         nohup uvicorn main:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 &
         EOF
 
+    # 7. AWS 보안 그룹에서 Runner IP 제거
     - name: Revoke Runner IP from Security Group
       if: always()
       env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        RUNNER_IP: ${{ env.RUNNER_IP }}
       run: |
         echo "Revoking IP: $RUNNER_IP"
         aws ec2 revoke-security-group-ingress \
