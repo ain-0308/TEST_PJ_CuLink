@@ -40,6 +40,3 @@ openai_key = secrets["OPEN_API_KEY"]
 
 #================= HUGGINGFACE ==================
 huggingface_token = secrets["HUGGINGFACE_TOKEN"]
-
-#================= 벡터 모델 경로 ================
-model_dir = secrets['VECTOR_MODEL_DIR']
