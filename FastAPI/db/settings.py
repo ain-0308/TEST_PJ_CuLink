@@ -2,6 +2,31 @@ import os
 from dotenv import load_dotenv
 # 환경 변수 로드
 load_dotenv()
+
+import boto3
+import json
+import os
+
+def get_secrets(secret_name, region_name='ap-northeast-2'):
+    # Secrets Manager 클라이언트 생성
+    client = boto3.client('secretsmanager', region_name=region_name)
+    try:
+        # 시크릿 값 가져오기
+        response = client.get_secret_value(SecretId=secret_name)
+        secret = response['SecretString']
+        return json.loads(secret)
+    except Exception as e:
+        print(f"Error retrieving secrets: {e}")
+        return None
+
+# 시크릿에서 환경 변수 가져오기
+secrets = get_secrets("env_key")
+if secrets:
+    for key, value in secrets.items():
+        os.environ[key] = value
+        print(f"Set environment variable for {key}")
+    
+
 #================= mySQL ========================
 database_config = {
     "DB_PORT" : int(os.getenv("DB_PORT")),
@@ -10,20 +35,11 @@ database_config = {
     "DB_PASSWORD" : os.getenv("DB_PASSWORD"),
     "DB_DATABASE" : os.getenv("DB_DATABASE"),}
 
-#================== FAISS =======================
-faiss_path = os.getenv('FAISS_INDEX_PATH')
-
-#================== Firebase ====================
-# firebase_key = os.getenv('FIREBASE_SERVICE_ACCOUNT_PATH')
-
 #================== openAI_key ==================
-openai_key = os.getenv("OPEN_API_KEY")
-summary_openai_key = os.getenv("SUMMARY_OPEN_API_KEY")
-report_openai_key = os.getenv("REPORT_OPEN_API_KEY")
-chatbot_openai_key = os.getenv("CHATBOT_OPEN_API_KEY")
+openai_key = secrets["OPEN_API_KEY"]
 
 #================= HUGGINGFACE ==================
-huggingface_token = os.getenv("HUGGINGFACE_TOKEN")
+huggingface_token = secrets["HUGGINGFACE_TOKEN"]
 
 #================= 벡터 모델 경로 ================
-model_dir = os.getenv('VECTOR_MODEL_DIR')
+model_dir = secrets['VECTOR_MODEL_DIR']
