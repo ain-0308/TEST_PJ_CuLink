@@ -19,7 +19,14 @@ from routers.saveReportRouter import router as saveReport_router
 # 챗봇 라우터
 from routers.chatbotRouter import router as chatbot_router
 # 라우터 초기화
-app = FastAPI()
+
+app = FastAPI(
+    title="My API",
+    version="1.0",
+    docs_url="/docs",  # Swagger UI 경로
+    redoc_url="/redoc",  # ReDoc 경로
+    openapi_url="/openapi.json",  # OpenAPI JSON 경로
+)
 
 origins = [
     "http://culink.site:3000/", # 리액트 퍼블릭 주소
@@ -32,14 +39,6 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-)
-
-app = FastAPI(
-    title="My API",
-    version="1.0",
-    docs_url="/docs",  # Swagger UI 경로
-    redoc_url="/redoc",  # ReDoc 경로
-    openapi_url="/openapi.json",  # OpenAPI JSON 경로
 )
 
 # 요약모델 라우터 
