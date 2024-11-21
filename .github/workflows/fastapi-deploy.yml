@@ -20,7 +20,7 @@ jobs:
 
     - name: Deploy to EC2
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@3.39.187.134 << 'EOF'
+        ssh -o StrictHostKeyChecking=no ubuntu@15.164.148.20 << 'EOF'
 
         if [ -d "~/TEST_PJ_CuLink" ]; then
         cd ~/TEST_PJ_CuLink
