@@ -17,9 +17,15 @@ jobs:
     # 2. GitHub Actions Runner의 Public IP 가져오기
     - name: Get Runner IP
       id: get_ip
-      run: echo "RUNNER_IP=$(curl -s http://checkip.amazonaws.com)" >> $GITHUB_ENV
+      run: |
+        echo "RUNNER_IP=$(curl -s http://checkip.amazonaws.com)" >> $GITHUB_ENV
+        echo "::set-output name=runner_ip::$(curl -s http://checkip.amazonaws.com)"
 
-    # 3. AWS 자격 증명 및 기본 리전 설정
+    # 3. Debug Runner IP 출력
+    - name: Debug Runner IP
+      run: echo "Runner IP from step output: ${{ steps.get_ip.outputs.runner_ip }}"
+
+    # 4. AWS 자격 증명 및 기본 리전 설정
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
@@ -27,25 +33,23 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-northeast-2  # AWS 리전 설정 (예: 서울 리전)
 
-    # 4. AWS 보안 그룹에 Runner IP 추가
+    # 5. AWS 보안 그룹에 Runner IP 추가
     - name: Authorize Runner IP in Security Group
-      env:
-        RUNNER_IP: ${{ env.RUNNER_IP }}
       run: |
-        echo "Authorizing IP: $RUNNER_IP"
+        echo "Authorizing IP: ${{ steps.get_ip.outputs.runner_ip }}"
         aws ec2 authorize-security-group-ingress \
           --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} \
           --protocol tcp \
           --port 22 \
-          --cidr ${RUNNER_IP}/32
+          --cidr ${{ steps.get_ip.outputs.runner_ip }}/32
 
-    # 5. SSH를 설정하여 EC2에 연결 준비
+    # 6. SSH를 설정하여 EC2에 연결 준비
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
-    # 6. EC2에 연결하여 FastAPI 배포
+    # 7. EC2에 연결하여 FastAPI 배포
     - name: Deploy to EC2
       run: |
         ssh -tt -o StrictHostKeyChecking=no ubuntu@15.164.148.20 << 'EOF'
@@ -61,15 +65,13 @@ jobs:
         nohup uvicorn main:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 &
         EOF
 
-    # 7. AWS 보안 그룹에서 Runner IP 제거
+    # 8. AWS 보안 그룹에서 Runner IP 제거
     - name: Revoke Runner IP from Security Group
       if: always()
-      env:
-        RUNNER_IP: ${{ env.RUNNER_IP }}
       run: |
-        echo "Revoking IP: $RUNNER_IP"
+        echo "Revoking IP: ${{ steps.get_ip.outputs.runner_ip }}"
         aws ec2 revoke-security-group-ingress \
           --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} \
           --protocol tcp \
           --port 22 \
-          --cidr ${RUNNER_IP}/32
+          --cidr ${{ steps.get_ip.outputs.runner_ip }}/32
