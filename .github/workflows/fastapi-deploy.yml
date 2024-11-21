@@ -13,6 +13,22 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    - name: Get Runner IP
+      id: get_ip
+      run: echo "RUNNER_IP=$(curl -s http://checkip.amazonaws.com)" >> $GITHUB_ENV
+
+    - name: Authorize Runner IP in Security Group
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: |
+        echo "Authorizing IP: $RUNNER_IP"
+        aws ec2 authorize-security-group-ingress \
+          --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} \
+          --protocol tcp \
+          --port 22 \
+          --cidr ${RUNNER_IP}/32
+
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
@@ -21,10 +37,9 @@ jobs:
     - name: Deploy to EC2
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@15.164.148.20 << 'EOF'
-
         if [ -d "~/TEST_PJ_CuLink" ]; then
-        cd ~/TEST_PJ_CuLink
-        git pull origin main
+          cd ~/TEST_PJ_CuLink
+          git pull origin main
         else
           git clone https://github.com/ain-0308/TEST_PJ_CuLink.git ~/TEST_PJ_CuLink
         fi
@@ -33,3 +48,16 @@ jobs:
         pip install -r requirements.txt
         nohup uvicorn main:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 &
         EOF
+
+    - name: Revoke Runner IP from Security Group
+      if: always()
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: |
+        echo "Revoking IP: $RUNNER_IP"
+        aws ec2 revoke-security-group-ingress \
+          --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} \
+          --protocol tcp \
+          --port 22 \
+          --cidr ${RUNNER_IP}/32
