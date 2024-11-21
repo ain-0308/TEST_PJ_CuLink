@@ -5,7 +5,7 @@ from db.settings import chatbot_openai_key
 print('secrets',secrets)
 
 # OpenAI API 키 설정
-openai.api_key = secrets.OPEN_API_KEY
+openai.api_key = secrets["OPEN_API_KEY"]
 
 # 프롬프트 추가
 site_info_prompt = """
