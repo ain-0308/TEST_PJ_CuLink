@@ -21,7 +21,7 @@ headers = {"Authorization": f"Bearer {huggingface_token}"}
 # 한글 => 영어 번역함수
 def translate_kr_to_en(keyword_ko):
     # 번역기 설정
-    translator = GoogleTranslator(source='en', target='ko')
+    translator = GoogleTranslator(source='ko', target='en')
     # 번역 수행
     keyword_en = translator.translate(keyword_ko)
     # 번역 결과 출력
@@ -43,23 +43,37 @@ def query(payload):
 
 #=================== 이미지 3가지 버전 생성 ======================
 def generate_images(keyword, styles):
-    images = []
+    # 스타일별 프롬프트 정의
+    prompts = {
+        "watercolor": "{summary} as a beautiful watercolor painting, focusing on soft colors and clear details.",
+        "comic": "{summary} in a vibrant comic book style, with sharp lines and bold colors.",
+        "photorealistic": "{summary} as a photorealistic image, with high detail and natural lighting."
+    }
+
+    images = []  # 생성된 이미지를 저장할 리스트
     for style in styles:
         retry_count = 0
         max_retries = 5  # 재시도 횟수 설정
         while retry_count < max_retries:
+            # 스타일별 프롬프트와 요약된 번역 문장 조합
+            prompt = prompts.get(style, "{summary}").format(summary=keyword)
+            print(f"{style} 스타일 이미지 생성 프롬프트: {prompt}")
+
             # 이미지 생성 시도
-            prompt = f"{keyword} in {style} style"
             image_bytes = query({"inputs": prompt})
-            # 이미지가 유효한지 확인하는 부분 추가
+            
+            # 이미지가 유효한지 확인
             if image_bytes:
+                print(f"{style} 스타일 이미지 생성 성공!")
                 images.append((style, image_bytes))
                 break
             else:
-                print(f"이미지 생성 실패 스타일 : {style}")
+                print(f"이미지 생성 실패 스타일: {style}")
                 retry_count += 1
-        if retry_count == max_retries: # 재시도 후에도 실패시
-            print(f"생성 시도한 {style} 스타일 {max_retries}회 시도 후 실패 ")
+        
+        # 최대 재시도 횟수 도달 시 실패 로그 출력
+        if retry_count == max_retries:
+            print(f"생성 시도한 {style} 스타일 {max_retries}회 시도 후 실패")
     return images
 
 #================ 이미지를 생성하고 FastAPI로 전송하는 함수 ==============

@@ -21,7 +21,7 @@ def createReport(request: ArticleIdList):
 
         print("레포트 생성 시작")
         comprs_data = createReport_services(request.ids)
-        print(comprs_data)
+        # print(comprs_data)
         
         # 리액트로 전달할 값
         print("레포트 전송 완료")
