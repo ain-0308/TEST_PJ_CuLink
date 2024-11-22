@@ -47,20 +47,75 @@ def createReport_openAI(article_contents):
         prompt_text_templates = [
             f"""
             You're a talented report writer.
+            
+            It's your job to read articles from multiple disciplines and build reports based on those articles that provide detailed analysis focusing on notable patterns, numbers, and insights.
 
-            Your task is to create reports based on articles from multiple disciplines. These reports should highlight notable patterns, data, and insights in a professional and concise manner.
+            Here are a few things to keep in mind when creating a report:
+            1. **On the first line, write a concise title that represents the report. The title must meet the following strict conditions:**
+            - The title must be no longer than **15 words** or **50 characters**.
+            - If the title exceeds either limit, the report will be invalidated. Adherence to this rule is critical.
+            - Use clear, impactful keywords related to the report content.
+            - **Use a line break (\n) to separate the title from the body of the report.**
 
-            When writing a report, follow these strict guidelines:
-            1. **The first line of the report must be a concise title that accurately represents the content. The title must be no longer than 15 words or 50 characters.** If the title exceeds this limit, the entire report will be invalidated. Use clear and compelling keywords relevant to the content of the report.
-            **Separate the title and the report body with a line break (\n).**
             2. The body of the report should follow this logical structure:
-            - Introduction: Briefly introduce the main topic or objective of the report.
-            - Main Content: Provide key insights, patterns, or analysis. Use specific data or examples to support your points.
-            - Conclusion: Summarize the most important findings and restate the key points.
-            3. Maintain an analytical, objective tone throughout the report. Use specific figures and data to lend credibility.
+            - Introduction: Briefly explain the main topic or focus.
+            - Main Content: Analyze patterns, numbers, or insights, and use specific examples or data to support your points.
+            - Conclusion: Summarize key takeaways and emphasize the main points clearly.
+            
+            3. Maintain an analytical and objective tone, and include data or figures for credibility.
             4. The report must be written in **Korean**.
 
-            **Important**: If the title exceeds the word or character limit, or if the report does not adhere to the above structure, it will be considered invalid.
+            **Important**: Follow the above guidelines carefully, especially regarding the title length. Reports with titles exceeding 15 words or 50 characters will be invalidated.
+
+            Article list:
+            {article_contents}
+
+            Report:
+            """,
+            f"""
+            As an expert analyst, your task is to create insightful reports based on the articles provided.
+
+            The articles include information about key trends, patterns, or challenges. Your job is to synthesize this information into a report. Remember to:
+            1. **Write a concise, impactful, one-line title at the start of the report. Adhere strictly to the following rules:**
+            - The title must not exceed **15 words** or **50 characters**.
+            - Titles longer than this will render the report invalid. Adherence is critical.
+            - Use compelling and relevant keywords summarizing the report.
+            - **Use a line break (\n) to separate the title from the body of the report.**
+
+            2. Organize the body logically in this sequence:
+            - Introduction: Briefly introduce the topic or objective.
+            - Main Content: Provide detailed analysis, data, or examples to support insights.
+            - Conclusion: Summarize findings and emphasize key insights clearly.
+            
+            3. Maintain professionalism and objectivity, citing specific figures or patterns when necessary.
+            4. **Write your report in Korean.**
+
+            **Important**: The title must align with the article's content and adhere to the length limits. Reports failing this requirement will be invalidated.
+
+            Article list:
+            {article_contents}
+
+            Report:
+            """,
+            f"""
+            You're a skilled analyst and report writer. Your task is to identify key takeaways from multiple articles and draw actionable insights to create a compelling report.
+
+            Based on the following articles, your report must follow these rules:
+            1. **Start with a concise title that summarizes the report in one sentence. Follow these strict guidelines:**
+            - The title must be no longer than **15 words** or **50 characters**.
+            - Titles exceeding this limit will invalidate the report. Adherence is mandatory.
+            - The title should capture the essence of the report using precise, compelling keywords.
+            - **Use a line break (\n) to separate the title from the body of the report.**
+
+            2. Write the body logically and clearly:
+            - Introduction: Provide an overview of the main focus.
+            - Main Content: Highlight notable patterns, figures, or data points from the articles.
+            - Conclusion: Reiterate the key findings and summarize the report succinctly.
+
+            3. Write in an analytical tone, including specific data or examples for credibility.
+            4. The report must be written in **Korean**.
+
+            **Important**: Ensure the title complies with the word and character limits. Reports that violate these rules will be considered invalid.
 
             Article list:
             {article_contents}
@@ -68,6 +123,7 @@ def createReport_openAI(article_contents):
             Report:
             """
         ]
+
 
 
 
