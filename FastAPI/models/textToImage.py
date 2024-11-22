@@ -46,9 +46,9 @@ def generate_images(keyword, styles):
     # 스타일별 프롬프트 정의
     # 스타일별 프롬프트 정의
     prompts = {
-        "watercolor": "{summary} depicted as a stunning watercolor painting. The image should focus on a human figure with accurate proportions, clear facial features, and natural body posture. Soft, flowing colors and delicate brush strokes create a dreamy, ethereal atmosphere.",
-        "comic": "{summary} illustrated in a bold and dynamic comic book style. The character should have sharp outlines, expressive facial expressions, and anatomically accurate body proportions. The colors are vivid and vibrant, enhancing the dramatic effect of the scene.",
-        "photorealistic": "{summary} rendered as a highly detailed photorealistic image. The human figure should have lifelike facial features, realistic body proportions, and fine details such as skin texture and natural lighting. The posture and expression should appear natural and engaging."
+        "watercolor": "{summary} depicted as a stunning watercolor painting. If a person is present, their face and body should be accurately portrayed with soft, clear details and natural posture. If text is included, it should be legible with smooth brush strokes. The overall image should feature soft, flowing colors and a harmonious composition.",
+        "comic": "{summary} illustrated in a bold and dynamic comic book style. Any human figures should have expressive faces and accurate body proportions, with attention to dynamic poses. If text is included, it should be bold, clear, and integrated naturally into the scene. The composition should be vivid, engaging, and full of life.",
+        "photorealistic": "{summary} rendered as a highly detailed photorealistic image. If a person is present, both face and body should be lifelike with realistic proportions, natural textures, and precise details. If text is included, it should be sharp, legible, and seamlessly integrated into the environment. The overall image should feel vivid, natural, and immersive."
     }
 
     images = []  # 생성된 이미지를 저장할 리스트
