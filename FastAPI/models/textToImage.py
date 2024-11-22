@@ -46,9 +46,9 @@ def generate_images(keyword, styles):
     # 스타일별 프롬프트 정의
     # 스타일별 프롬프트 정의
     prompts = {
-        "watercolor": "{summary} depicted as a stunning watercolor painting with soft, flowing colors, delicate brush strokes, and a dreamy, ethereal atmosphere.",
-        "comic": "{summary} illustrated in a bold and dynamic comic book style, with sharp outlines, vivid colors, and expressive details that capture the essence of the scene.",
-        "photorealistic": "{summary} rendered as a highly detailed photorealistic image, showcasing natural lighting, vivid textures, and lifelike elements that bring the scene to life."
+        "watercolor": "{summary} depicted as a stunning watercolor painting. The image should focus on a human figure with accurate proportions, clear facial features, and natural body posture. Soft, flowing colors and delicate brush strokes create a dreamy, ethereal atmosphere.",
+        "comic": "{summary} illustrated in a bold and dynamic comic book style. The character should have sharp outlines, expressive facial expressions, and anatomically accurate body proportions. The colors are vivid and vibrant, enhancing the dramatic effect of the scene.",
+        "photorealistic": "{summary} rendered as a highly detailed photorealistic image. The human figure should have lifelike facial features, realistic body proportions, and fine details such as skin texture and natural lighting. The posture and expression should appear natural and engaging."
     }
 
     images = []  # 생성된 이미지를 저장할 리스트
