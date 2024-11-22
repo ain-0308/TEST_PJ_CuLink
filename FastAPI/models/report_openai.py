@@ -1,8 +1,7 @@
 import re
 import openai
+from langchain_community.llms import OpenAI
 from db.settings import openai_key
-
-# API 키 설정
 openai.api_key = openai_key  # OpenAI API 키
 
 def create_report_openai(article_contents):
@@ -177,4 +176,3 @@ def generate_reports_and_images(article_contents_list):
         
         results.append(reports)
     
-    return results
