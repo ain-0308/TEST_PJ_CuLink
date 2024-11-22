@@ -54,7 +54,7 @@ def generate_images(keyword, styles):
     images = []  # 생성된 이미지를 저장할 리스트
     for style in styles:
         retry_count = 0
-        max_retries = 5  # 재시도 횟수 설정
+        max_retries = 10  # 재시도 횟수 설정
         while retry_count < max_retries:
             # 스타일별 프롬프트와 요약된 번역 문장 조합
             prompt = prompts.get(style, "{summary}").format(summary=keyword)
