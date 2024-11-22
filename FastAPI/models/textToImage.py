@@ -44,10 +44,11 @@ def query(payload):
 #=================== 이미지 3가지 버전 생성 ======================
 def generate_images(keyword, styles):
     # 스타일별 프롬프트 정의
+    # 스타일별 프롬프트 정의
     prompts = {
-        "watercolor": "{summary} as a beautiful watercolor painting, focusing on soft colors and clear details.",
-        "comic": "{summary} in a vibrant comic book style, with sharp lines and bold colors.",
-        "photorealistic": "{summary} as a photorealistic image, with high detail and natural lighting."
+        "watercolor": "{summary} depicted as a stunning watercolor painting with soft, flowing colors, delicate brush strokes, and a dreamy, ethereal atmosphere.",
+        "comic": "{summary} illustrated in a bold and dynamic comic book style, with sharp outlines, vivid colors, and expressive details that capture the essence of the scene.",
+        "photorealistic": "{summary} rendered as a highly detailed photorealistic image, showcasing natural lighting, vivid textures, and lifelike elements that bring the scene to life."
     }
 
     images = []  # 생성된 이미지를 저장할 리스트
