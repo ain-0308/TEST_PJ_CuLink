@@ -46,9 +46,9 @@ def generate_images(keyword, styles):
     # 스타일별 프롬프트 정의
     # 스타일별 프롬프트 정의
     prompts = {
-        "watercolor": "{summary} depicted as a stunning watercolor painting. If a person is part of the scene, their face and body should be portrayed accurately with soft, natural details. If text appears, ensure it is legible and blends smoothly into the composition. The overall image should maintain harmony and a dreamlike atmosphere with flowing, delicate colors.",
-        "comic": "{summary} illustrated in a bold and vibrant comic book style. If a person is included, their face and body should have expressive and dynamic features, while maintaining accurate proportions. If text is part of the design, it should be bold, legible, and integrated naturally. The scene should convey energy and excitement with vivid colors and sharp outlines.",
-        "photorealistic": "{summary} rendered as a highly detailed photorealistic image. If a human figure is present, their face and body should appear lifelike, with natural proportions and realistic details. If text is included in the scene, it should be sharp, legible, and seamlessly integrated into the environment. The image should feel vivid and immersive, capturing the essence of the described scene."
+        "watercolor": "{summary} depicted as a beautiful watercolor painting. If people are included, they should be portrayed with soft, natural details, including accurate facial features and body proportions. The scene emphasizes flowing colors, delicate brush strokes, and a harmonious, serene atmosphere. Any text in the scene should be legible and blend smoothly with the composition.",
+        "comic": "{summary} illustrated in a bold and dynamic comic book style. If people are included, they should have expressive facial features, accurate body proportions, and dynamic poses. The scene emphasizes sharp outlines, vivid colors, and a sense of movement and energy. Any text included should be bold, clear, and seamlessly integrated into the composition.",
+        "photorealistic": "{summary} rendered as a highly detailed photorealistic image. If people are included, their faces and bodies should appear lifelike with realistic proportions, natural textures, and precise details. The image emphasizes vivid details, natural lighting, and an immersive atmosphere. Any text should be sharp, legible, and seamlessly integrated into the environment."
     }
 
     images = []  # 생성된 이미지를 저장할 리스트
