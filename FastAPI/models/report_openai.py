@@ -46,63 +46,29 @@ def createReport_openAI(article_contents):
         # 3개의 프롬프트 템플릿
         prompt_text_templates = [
             f"""
-            You're a skilled analyst and report writer, and your role is to identify key takeaways from multiple articles and draw new insights from them to create a report.
+            You're a talented report writer.
 
-            Based on the following articles, you've identified important information, common issues, or noteworthy patterns that will provide new perspectives and analysis. The title of the report should be on the first line, and the body of the report should flow naturally with no line breaks.
+            Your task is to create reports based on articles from multiple disciplines. These reports should highlight notable patterns, data, and insights in a professional and concise manner.
 
-            Here are a few things to keep in mind when creating a report:
-            1. **On the first line, write a concise title that is representative of the report. The title should be no longer than 15 words or 50 characters. **This is a very important requirement and must be adhered to as the entire report will be invalidated if the title exceeds 15 words. Write a clear and compelling title using keywords that are relevant to the content of the report.
-              **Use line breaks(\n) to separate the title from the body of the report.**
-            2. The body of the report should be logically and smoothly organized in the following order: introduction, body, conclusion, without subheadings.
-            3. If you have specific figures or examples in your writing, use them to substantiate your insights.
-            4. Maintain an analytical, objective tone and include specific figures or data to lend credibility to your report.
-            5. At the end of your report, emphasize the most important points of your topic by restating them.
-            6. **Write your report in Korean.**
+            When writing a report, follow these strict guidelines:
+            1. **The first line of the report must be a concise title that accurately represents the content. The title must be no longer than 15 words or 50 characters.** If the title exceeds this limit, the entire report will be invalidated. Use clear and compelling keywords relevant to the content of the report.
+            **Separate the title and the report body with a line break (\n).**
+            2. The body of the report should follow this logical structure:
+            - Introduction: Briefly introduce the main topic or objective of the report.
+            - Main Content: Provide key insights, patterns, or analysis. Use specific data or examples to support your points.
+            - Conclusion: Summarize the most important findings and restate the key points.
+            3. Maintain an analytical, objective tone throughout the report. Use specific figures and data to lend credibility.
+            4. The report must be written in **Korean**.
 
-            **Important** : Make sure to follow the above guidelines when writing your report, as failure to do so will invalidate your report.
-            Article list:
-
-            {article_contents}
-
-            Report:
-            """,
-            f"""
-            As an expert analyst, your job is to create insightful reports based on the following articles.
-
-            The articles contain information about key trends, patterns, or common issues. Your report should synthesize these insights into a comprehensive and compelling report. The title should appear on the first line, and the body should flow naturally without line breaks or subheadings.
-
-
-            Remember:
-            1. **Write a concise, impactful, one-line title as the first line of the report. The title should be 20 words or less. Reports with titles longer than 20 words will be invalidated. Focus on using keywords that summarize the report to make the title clear and compelling.
-              **Use line breaks(\n) to separate the title from the body of the report.**
-            2. The body of the report should be logically organized in the following order: introduction, main content, and conclusion.
-            3. Maintain a professional tone by using specific examples, figures, or patterns observed in the article.
-            4. Include a concise summary of the most important findings in the conclusion of your report.
-            5. Write your report in Korean.
-
-            **Warning: Please make sure your title complies with the word count limit, as failure to do so will invalidate your report.
+            **Important**: If the title exceeds the word or character limit, or if the report does not adhere to the above structure, it will be considered invalid.
 
             Article list:
             {article_contents}
 
             Report:
-            """,
-            f"""
-            You need to create a professional report based on multiple articles. The report should provide a detailed analysis that focuses on noteworthy patterns, figures, and insights.
-
-            Key points to remember
-            1. **The report begins with a concise title that summarizes the report in one sentence. This title should be no longer than 15 words or 50 characters.** If the title is longer than 15 words, the report is considered invalid, so be sure to stick to the word limit. The title should emphasize the main content of the report and grab attention.
-              **Use line breaks(\n) to separate the title from the body of the report.**
-            2. The body of the report should follow a logical structure from introduction to main points to conclusion.
-            3. Cite specific data or examples to support your analysis where relevant.
-            4. 4. Conclude the report by summarizing the main points.
-            5. **Write the report in Korean.**
-
-             **IMPORTANT** : Reports that do not follow the above key points will not be valid. Please make sure to follow the above key points when writing your report.
-
-            Article list:
             """
         ]
+
 
 
 
