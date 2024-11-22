@@ -45,30 +45,38 @@ def query(payload):
 def generate_images(keyword, styles):
     # 스타일별 프롬프트 정의
     # 스타일별 프롬프트 정의
-    # prompts = {
-    #     "watercolor": "Create an image of {summary}, depicted as a beautiful watercolor painting. The artwork should feature flowing, soft hues and delicate brushstrokes that evoke a sense of harmony. If people are present, portray them with soft, natural details, realistic facial features, and body proportions. Incorporate natural elements like light diffusion and smooth blending of colors for a tranquil and serene atmosphere. Text, if included, should be legible and seamlessly integrated into the composition.",
-    #     "comic": "Generate an image of {summary} illustrated in a bold and dynamic comic book style. The scene should include sharp outlines, high-contrast vivid colors, and a sense of movement. If people are present, ensure their poses are dynamic, with exaggerated yet accurate expressions and body proportions. Integrate bold text seamlessly into the design, using stylized word bubbles or captions to enhance the comic aesthetic. Ensure an energetic and visually striking composition.",
-    #     "photorealistic": "Render {summary} as a highly detailed photorealistic image. Emphasize natural textures, lifelike proportions, and realistic lighting effects, such as accurate shadows, reflections, and atmospheric details. If people are present, depict them with precise facial features, natural expressions, and proportional bodies. Ensure all elements, including any text, are sharp and realistically embedded into the environment to create an immersive experience."
-    # }
+    prompts = {
+        "watercolor": "Create an image of {summary}, depicted as a beautiful watercolor painting. The artwork should feature flowing, soft hues and delicate brushstrokes that evoke a sense of harmony. If people are present, portray them with soft, natural details, realistic facial features, and body proportions. Incorporate natural elements like light diffusion and smooth blending of colors for a tranquil and serene atmosphere. Text, if included, should be legible and seamlessly integrated into the composition.",
+        "comic": "Generate an image of {summary} illustrated in a bold and dynamic comic book style. The scene should include sharp outlines, high-contrast vivid colors, and a sense of movement. If people are present, ensure their poses are dynamic, with exaggerated yet accurate expressions and body proportions. Integrate bold text seamlessly into the design, using stylized word bubbles or captions to enhance the comic aesthetic. Ensure an energetic and visually striking composition.",
+        "photorealistic": "Render {summary} as a highly detailed photorealistic image. Emphasize natural textures, lifelike proportions, and realistic lighting effects, such as accurate shadows, reflections, and atmospheric details. If people are present, depict them with precise facial features, natural expressions, and proportional bodies. Ensure all elements, including any text, are sharp and realistically embedded into the environment to create an immersive experience."
+    }
 
-    images = []
+    images = []  # 생성된 이미지를 저장할 리스트
     for style in styles:
         retry_count = 0
-        max_retries = 3  # 재시도 횟수 설정
+        max_retries = 6  # 재시도 횟수 설정
         while retry_count < max_retries:
+            # 스타일별 프롬프트와 요약된 번역 문장 조합
+            prompt = prompts.get(style, "{summary}").format(summary=keyword)
+            print(f"{style} 스타일 이미지 생성 프롬프트: {prompt}")
+
             # 이미지 생성 시도
-            prompt = f"{keyword} in {style} style"
             image_bytes = query({"inputs": prompt})
-            # 이미지가 유효한지 확인하는 부분 추가
+            
+            # 이미지가 유효한지 확인
             if image_bytes:
+                print(f"{style} 스타일 이미지 생성 성공!")
                 images.append((style, image_bytes))
                 break
             else:
-                print(f"이미지 생성 실패 스타일 : {style}")
+                print(f"이미지 생성 실패 스타일: {style}")
                 retry_count += 1
-        if retry_count == max_retries: # 재시도 후에도 실패시
-            print(f"생성 시도한 {style} 스타일 {max_retries}회 시도 후 실패 ")
+        
+        # 최대 재시도 횟수 도달 시 실패 로그 출력
+        if retry_count == max_retries:
+            print(f"생성 시도한 {style} 스타일 {max_retries}회 시도 후 실패")
     return images
+
 #================ 이미지를 생성하고 FastAPI로 전송하는 함수 ==============
 def generate_images_and_send(translated_text):
     print("이미지 생성 함수 시작")
