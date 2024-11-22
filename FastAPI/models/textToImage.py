@@ -46,9 +46,9 @@ def generate_images(keyword, styles):
     # 스타일별 프롬프트 정의
     # 스타일별 프롬프트 정의
     prompts = {
-        "watercolor": "{summary} depicted as a stunning watercolor painting. If a person is present, their face and body should be accurately portrayed with soft, clear details and natural posture. If text is included, it should be legible with smooth brush strokes. The overall image should feature soft, flowing colors and a harmonious composition.",
-        "comic": "{summary} illustrated in a bold and dynamic comic book style. Any human figures should have expressive faces and accurate body proportions, with attention to dynamic poses. If text is included, it should be bold, clear, and integrated naturally into the scene. The composition should be vivid, engaging, and full of life.",
-        "photorealistic": "{summary} rendered as a highly detailed photorealistic image. If a person is present, both face and body should be lifelike with realistic proportions, natural textures, and precise details. If text is included, it should be sharp, legible, and seamlessly integrated into the environment. The overall image should feel vivid, natural, and immersive."
+        "watercolor": "{summary} depicted as a stunning watercolor painting. If a person is part of the scene, their face and body should be portrayed accurately with soft, natural details. If text appears, ensure it is legible and blends smoothly into the composition. The overall image should maintain harmony and a dreamlike atmosphere with flowing, delicate colors.",
+        "comic": "{summary} illustrated in a bold and vibrant comic book style. If a person is included, their face and body should have expressive and dynamic features, while maintaining accurate proportions. If text is part of the design, it should be bold, legible, and integrated naturally. The scene should convey energy and excitement with vivid colors and sharp outlines.",
+        "photorealistic": "{summary} rendered as a highly detailed photorealistic image. If a human figure is present, their face and body should appear lifelike, with natural proportions and realistic details. If text is included in the scene, it should be sharp, legible, and seamlessly integrated into the environment. The image should feel vivid and immersive, capturing the essence of the described scene."
     }
 
     images = []  # 생성된 이미지를 저장할 리스트
