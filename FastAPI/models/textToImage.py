@@ -28,17 +28,25 @@ def translate_kr_to_en(keyword_ko):
     return keyword_en
 
 def query(payload):
-    response = requests.post(API_URL, headers=headers, json=payload)
-    print("이미지생성 확인 메시지 ", response)
-    return response.content
-
+    try:
+        response = requests.post(API_URL, headers=headers, json=payload)
+        print("API 응답 상태코드: ", response.status_code)
+        if response.status_code == 200:
+            print("API 요청 성공!")
+            return response.content  # 이미지 데이터
+        else:
+            print(f"API 요청 실패: {response.status_code} - {response.text}")
+            return None
+    except Exception as e:
+        print(f"API 요청 중 에러 발생: {e}")
+        return None
 
 #=================== 이미지 3가지 버전 생성 ======================
 def generate_images(keyword, styles):
     images = []
     for style in styles:
         retry_count = 0
-        max_retries = 3  # 재시도 횟수 설정
+        max_retries = 5  # 재시도 횟수 설정
         while retry_count < max_retries:
             # 이미지 생성 시도
             prompt = f"{keyword} in {style} style"
@@ -61,37 +69,25 @@ def generate_images_and_send(translated_text):
 
     # 번역된 키워드를 키워드 변수에 할당
     keyword = translate_kr_to_en(translated_text)
-    
+    print(f"번역된 키워드: {keyword}")
+
     # 이미지 생성 결과 할당
     image_versions = generate_images(keyword, styles)
     
-    # 이미지 결과가 제대로 담기지 않은 이슈로 인해
-    # 이미지 결과가 정확히 전달 되었는지 체크
-    for item in image_versions:
-        if len(item) == 2:
-            style, image_bytes = item
-        else:
-            print(f"구성 누락된 이미지: {item}")
-            continue
-
-    # 업로드할 파일을 담을 딕셔너리 초기화
+    # 생성된 이미지를 리스트에 딕셔너리 형태로 변환
     images = []
-    # 생성된 이미지들을 가지고 각각 바이너리 데이터로 변환한 후
-    # 리스트에 딕셔너리 형태로 담음
     for style, image_bytes in image_versions:
         try:
-            # 파일 업로드 데이터 구성
-            timestamp = datetime.now().strftime('%Y%m%d%H%M%S') #현재시간
-            file_name = f"{timestamp}-image_{style}.jpg" # 현재시간 + 이미지 + 스타일.jpg
+            timestamp = datetime.now().strftime('%Y%m%d%H%M%S')  # 현재시간
+            file_name = f"{timestamp}-image_{style}.jpg"  # 파일명 구성
             
-            # 리스트에 파일 추가, 필드 이름을 모두 'files'로 통일
+            # 이미지 데이터를 추가
             images.append({
-                "file_name" : file_name,
-                "style" : style,
-                "image_data" : image_bytes
+                "file_name": file_name,
+                "style": style,
+                "image_data": image_bytes
             })
         except Exception as e:
-            print(f"이미지 구성 에러 {style}: {e}")
-            continue  # 다음 이미지 처리로 이동
+            print(f"이미지 구성 중 에러 발생 ({style}): {e}")
     print("이미지 생성 완료")
     return images
