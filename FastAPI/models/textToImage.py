@@ -44,36 +44,23 @@ def query(payload):
 #=================== 이미지 3가지 버전 생성 ======================
 def generate_images(keyword, styles):
     # 스타일별 프롬프트 정의
-    # 스타일별 프롬프트 정의
-    prompts = {
-        "watercolor": "Create a watercolor-style illustration based on the following summary: {summary}. Use soft, fluid strokes and pastel colors to evoke an artistic and dreamy atmosphere.",
-            "comic": "Generate a comic-style artwork inspired by the following summary: {summary}. Emphasize bold lines, vibrant colors, and exaggerated expressions to bring a dynamic and fun mood.",
-            "realistic": "Produce a realistic depiction of the following scene described in this summary: {summary}. Focus on detailed textures, accurate lighting, and naturalistic color tones to achieve a lifelike representation."
-    }
-    images = []  # 생성된 이미지를 저장할 리스트
+    images = []
     for style in styles:
         retry_count = 0
-        max_retries = 6  # 재시도 횟수 설정
+        max_retries = 5  # 재시도 횟수 설정
         while retry_count < max_retries:
-            # 스타일별 프롬프트와 요약된 번역 문장 조합
-            prompt = prompts.get(style, "{summary}").format(summary=keyword)
-            print(f"{style} 스타일 이미지 생성 프롬프트: {prompt}")
-
             # 이미지 생성 시도
+            prompt = f"{keyword} in {style} style"
             image_bytes = query({"inputs": prompt})
-            
-            # 이미지가 유효한지 확인
+            # 이미지가 유효한지 확인하는 부분 추가
             if image_bytes:
-                print(f"{style} 스타일 이미지 생성 성공!")
                 images.append((style, image_bytes))
                 break
             else:
-                print(f"이미지 생성 실패 스타일: {style}")
+                print(f"이미지 생성 실패 스타일 : {style}")
                 retry_count += 1
-        
-        # 최대 재시도 횟수 도달 시 실패 로그 출력
-        if retry_count == max_retries:
-            print(f"생성 시도한 {style} 스타일 {max_retries}회 시도 후 실패")
+        if retry_count == max_retries: # 재시도 후에도 실패시
+            print(f"생성 시도한 {style} 스타일 {max_retries}회 시도 후 실패 ")
     return images
 
 #================ 이미지를 생성하고 FastAPI로 전송하는 함수 ==============
