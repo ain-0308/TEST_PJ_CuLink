@@ -61,7 +61,7 @@ async def save_report(report_data: ReportData):
 
         # Firebase에 이미지 업로드 및 고정 URL 가져오기
         image_url = upload_image_to_firebase_with_fixed_url(report_data.image, rep_id)
-
+        print('image_url',image_url)
         # MySQL에 보고서 데이터 저장
         db_connection = get_db_connection(database_config)
         cursor = db_connection.cursor()
