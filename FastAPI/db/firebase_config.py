@@ -21,7 +21,7 @@ def initialize_firebase():
     try:
         firebase_key = get_firebase_key()
         if "private_key" in firebase_key:
-            firebase_key['private_key'] = firebase_key['private_key'].replace('\\n', '\n')
+            firebase_key['private_key'] = firebase_key['private_key'].replace("\\n", '\n')
 
         logging.info("Successfully fetched and processed Firebase Key.")
         # Firebase 인증 설정

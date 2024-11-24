@@ -30,7 +30,7 @@ def search_by_fireindex(user_keywords: dict):
                     and_results = article_ids  # 첫 번째 키워드는 전체 집합으로 초기화
                 else:
                     and_results.intersection_update(article_ids)  # 교집합으로 필터링
-
+    print("and_results type", type(and_results))
     # "or" 조건: 선택 키워드가 포함된 기사들을 모두 추가
     or_keywords = user_keywords.get("orKeywords", [])
     print('or_keywords',or_keywords)
@@ -43,7 +43,7 @@ def search_by_fireindex(user_keywords: dict):
             if doc.exists:
                 article_ids = set(doc.to_dict().get("article_ids", []))
                 or_results.update(article_ids)  # 합집합으로 추가
-
+    print("or_results type", type(or_results))
     # "not" 조건: 제외 키워드가 포함된 기사들을 제외
     not_keywords = user_keywords.get("notKeywords", [])
     print('not_keywords',not_keywords)
@@ -55,9 +55,12 @@ def search_by_fireindex(user_keywords: dict):
                 doc_data = doc.to_dict() or {}  # None인 경우 빈 딕셔너리로 처리
                 article_ids = set(doc_data.to_dict().get("article_ids", []))
                 not_results.update(article_ids)  # 제외할 기사 IDs 추가
+    print("not_keywords type", type(not_keywords))
 
 # 최종 결과 계산
     final_results = (and_results - not_results)  # "and" 조건에서 "not" 조건 제외
+    print('and_results type', type(and_results))
+    print('not_results type', type(not_results))
     if or_results:
         final_results.update(or_results)  # "or" 조건 추가
 
