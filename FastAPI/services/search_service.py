@@ -16,7 +16,9 @@ def search_by_fireindex(user_keywords: dict):
     or_results = set()
     not_results = set()
     final_results = set()
+    
     # Firestore에서 검색
+
     # "and" 조건: 필수 키워드가 포함된 기사들의 교집합
     and_keywords = user_keywords.get('andKeywords', [])
     print('and_keywords',and_keywords)
@@ -31,9 +33,12 @@ def search_by_fireindex(user_keywords: dict):
                 else:
                     and_results.intersection_update(article_ids)  # 교집합으로 필터링
     print("and_results type", type(and_results))
+    
+    
     # "or" 조건: 선택 키워드가 포함된 기사들을 모두 추가
     or_keywords = user_keywords.get("orKeywords", [])
     print('or_keywords',or_keywords)
+    
     if or_keywords:  # 리스트가 비어 있지 않을 때만 실행
         for keyword in or_keywords:
             print('or_keywords의 keyword',keyword)
@@ -44,9 +49,9 @@ def search_by_fireindex(user_keywords: dict):
                 article_ids = set(doc.to_dict().get("article_ids", []))
                 or_results.update(article_ids)  # 합집합으로 추가
     print("or_results type", type(or_results))
+    
     # "not" 조건: 제외 키워드가 포함된 기사들을 제외
     not_keywords = user_keywords.get("notKeywords", [])
-    print('not_keywords', not_keywords)
     if not_keywords:  # 리스트가 비어 있지 않을 때만 실행
         for keyword in not_keywords:
             doc_ref = fire_db.collection("keyword_index").document(keyword)
@@ -55,7 +60,8 @@ def search_by_fireindex(user_keywords: dict):
                 doc_data = doc.to_dict() or {}  # None인 경우 빈 딕셔너리로 처리
                 article_ids = set(doc_data.get("article_ids", []))  # 딕셔너리에서 "article_ids"를 가져옴
                 not_results.update(article_ids)  # 제외할 기사 IDs 추가
-    print("not_keywords type", type(not_keywords))
+    print("not_results type", type(not_results))
+
 # 최종 결과 계산
     final_results = (and_results - not_results)  # "and" 조건에서 "not" 조건 제외
     print('final_results 결과',final_results)
