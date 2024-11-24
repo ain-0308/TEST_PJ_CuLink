@@ -20,7 +20,10 @@ def get_firebase_key():
 def initialize_firebase():
     try:
         firebase_key = get_firebase_key()
-        logging.info("Successfully fetched Firebase Key.")
+        if "private_key" in firebase_key:
+            firebase_key['private_key'] = firebase_key['private_key'].replace('\\n', '\n')
+
+        logging.info("Successfully fetched and processed Firebase Key.")
         # Firebase 인증 설정
         cred = credentials.Certificate(firebase_key)
         if not firebase_admin._apps:  # Firebase 중복 초기화 방지
