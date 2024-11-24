@@ -58,8 +58,7 @@ def search_by_fireindex(user_keywords: dict):
     print("not_keywords type", type(not_keywords))
 # 최종 결과 계산
     final_results = (and_results - not_results)  # "and" 조건에서 "not" 조건 제외
-    print('and_results type', type(and_results))
-    print('not_results type', type(not_results))
+    print('final_results 결과',final_results)
     if or_results:
         final_results.update(or_results)  # "or" 조건 추가
 
