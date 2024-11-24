@@ -10,6 +10,7 @@ def get_firebase_key():
         print("Fetching Firebase Key from Secrets Manager...")
         response = client.get_secret_value(SecretId="FIREBASE_KEY")
         firebase_key = json.loads(response["SecretString"])
+        print("Firebase Key:", firebase_key)  # 가져온 데이터 출력
         return firebase_key
     except Exception as e:
         print(f"Error fetching Firebase Key: {e}")
